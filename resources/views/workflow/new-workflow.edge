@@ -1,0 +1,77 @@
+@layout('layouts/main')
+@set('title', 'New workflow')
+
+@section('body')
+ <div class="min-h-screen p-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- Page Heading -->
+    <h1 class="text-4xl font-extrabold text-center mb-8">Create a New Workflow</h1>
+
+    <!-- Workflow Form -->
+    <form method="post" data-controller="new-workflow" data-action="new-workflow#submit">
+      <!-- Workflow Name Input -->
+      <div class="mb-4">
+        <label for="name" class="text-lg font-semibold">Name:</label>
+        <input type="text" id="name" name="name" class="w-full border border-gray-300 rounded-md p-2" required>
+      </div>
+
+      <!-- Workflow Description Input -->
+      <div class="mb-4">
+        <label for="description" class="text-lg font-semibold">Description</label>
+        <textarea id="description" name="description" class="w-full border border-gray-300 rounded-md p-2" required></textarea>
+      </div>
+
+      <!-- Is Public Checkbox -->
+      <div class="mb-4">
+        <label class="text-lg font-semibold">Show on Home page:</label>
+        <input type="checkbox" id="is_public" name="is_public" class="ml-2 accent-red-500">
+      </div>
+
+      <!-- Workflow Arguments -->
+      <hr class="p-2"/>
+      <label class="text-lg font-semibold">Arguments:</label>
+      <div class="mb-4" data-new-workflow-target="argList">
+        <template data-new-workflow-target="argTemplate" class="arg">
+    <div class="flex flex-row mt-4 justify-between items-center">
+        <div class="flex flex-col space-y-4 flex-grow" data-new-workflow-target="args" data-controller="argument">
+            <div>
+             <label class="text-lg font-semibold">Argument Name:</label>
+            <input id="arguments" data-key="name" class="w-full border border-gray-300 rounded-md p-2" placeholder="Enter Argument Name" />
+            </div>
+
+            <div>
+            <label class="text-lg font-semibold">Argument Type:</label>
+            <select id="type" data-action="argument#changedType" data-key="type" class="w-full border border-gray-300 rounded-md p-2">
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="select">From Options</option>
+            </select>
+            </div>
+
+            <div data-argument-target="options" class="hidden">
+                <label class="text-lg font-semibold">Options (Comma seperated):</label>
+                <input id="options" data-key="options" class="w-full border border-gray-300 rounded-md p-2" placeholder="Option 1, Option 2, Option 3" />
+            </div>
+            <hr />
+        </div>
+
+        <button data-action="new-workflow#removeArg" class="bg-red-400 w-10 h-10 p-2 m-4 text-white rounded-full" type="button">X</button>
+    </div>
+</template>
+
+      </div>
+      <button data-action="new-workflow#addArg" type="button" class="rounded bg-red-400 p-2 text-white">Add an Argument</button>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="bg-red-500 text-white font-semibold py-4 px-8 rounded-full hover:bg-red-600 transition duration-300">Create Workflow</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+@end

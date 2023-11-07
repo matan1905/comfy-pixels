@@ -1,0 +1,37 @@
+@layout('layouts/main')
+@set('title', 'Manage Workflow')
+
+@section('body')
+  <!-- Manage Workflow Page Content -->
+<div class=" min-h-screen p-8" data-controller="manage-workflow">
+  <div class="max-w-7xl mx-auto">
+    <!-- Page Heading and Tagline -->
+    <h1 class="text-4xl font-extrabold text-center  mb-8">Manage Your Workflow</h1>
+    <p class="text-2xl text-center mb-8 bg-red-500 text-white">This is where you manage your workflow, save this link for your personal use and avoid sharing it with others.</p>
+
+    <!-- Websocket Link and Copy to Clipboard -->
+    <div class="bg-white p-4 rounded-lg shadow mb-8">
+      <h2 class="text-2xl font-semibold mb-4">WebSocket Link</h2>
+      <p class="text-gray-600">Copy this link to connect into your ComfyUI Websocket Serve node:</p>
+      <div class="flex items-center justify-between bg-gray-100 p-2 rounded-lg mt-4">
+        <input data-manage-workflow-target="wsLink" disabled type="text" value="ws://{{request.headers().host}}/serve?secret={{workflow.secret}}" class="w-full bg-transparent border-none focus:outline-none">
+        <button class="text-red-500 hover:underline cursor-pointer" data-action="manage-workflow#copyLink">Copy</button>
+      </div>
+    </div>
+
+    <!-- Generation Page and Open in New Page -->
+    <div class="bg-white p-4 rounded-lg shadow mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Image Generation Page</h2>
+      <p class="text-gray-600">After connecting and running your workflow, You can generate images using this link:</p>
+      <div class="flex items-center justify-between bg-gray-100 p-2 rounded-lg mt-4">
+        <input disabled type="text" value="https://{{request.headers().host}}/generate/{{workflow.id}}" class="w-full bg-transparent border-none focus:outline-none">
+        <a href="/generate/{{workflow.id}}" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap">Open in new page</a>
+      </div>
+
+
+    </div>
+
+</div>
+
+
+@end
