@@ -41,6 +41,6 @@ export default class Workflow extends BaseModel {
 
   @beforeCreate()
   public static async setlastLiveAtToNever (model: Workflow) {
-    model.lastLiveAt = DateTime.fromISO('1970-01-01T00:00:00.000Z')
+    model.lastLiveAt = DateTime.fromSeconds(0)
   }
 }
