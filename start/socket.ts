@@ -33,19 +33,32 @@ Ws.wss.on("connection", async (ws,request) => {
     });
 
     ws.on('close', () => {
-      // Update workflow to not live
-      Workflow.findBy('secret', secret).then((workflow) => {
-        workflow!.isLive = false
-        workflow!.save()
-      })
-      delete Ws.servers[secret]
-
+      // Give it a grace period to reconnect
+      setTimeout(() => {
+        if(ws.readyState === ws.OPEN) {
+          return
+        }
+        // Update workflow to not live
+        Workflow.findBy('secret', secret).then((workflow) => {
+          workflow!.isLive = false
+          workflow!.save()
+        })
+        delete Ws.servers[secret]
+      }, 10000)
     })
+
+
   } else if (urlWithParsedQuery.pathname === '/session' && urlWithParsedQuery.query?.id) {
     const sessionId = urlWithParsedQuery.query.id as string
     Ws.sessions[sessionId] = ws
     ws.on('close', () => {
-      delete Ws.sessions[sessionId]
+      setTimeout(() => {
+        if(ws.readyState === ws.OPEN) {
+          return
+        }
+        delete Ws.sessions[sessionId]
+      }
+      , 10000)
     })
   }
 

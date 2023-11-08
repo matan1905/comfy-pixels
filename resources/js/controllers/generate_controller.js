@@ -27,8 +27,13 @@ export default class extends Controller {
     }
 
     this.socket = socket;
-    // connect
-
+    // Auto reconnect
+    socket.onclose = (event) => {
+        console.log('Connection died!');
+        setTimeout(() => {
+          this.connect();
+        }, 1000);
+    };
   }
 
   generate(e){
