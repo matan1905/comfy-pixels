@@ -9,7 +9,7 @@ export default class extends Controller {
     const sessionId = uuidv4();
     this.sessionId = sessionId;
     // Connect to websocket
-    const socket = new WebSocket(`ws://${window.location.host}/session?id=${sessionId}`);
+    const socket = new WebSocket(`wss://${window.location.host}/session?id=${sessionId}`);
     socket.onmessage =  (event)=> {
       this.generateButtonTarget.disabled = false;
       this.generateButtonTarget.innerText = "Generate"

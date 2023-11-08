@@ -14,7 +14,7 @@
       <h2 class="text-2xl font-semibold mb-4">WebSocket Link</h2>
       <p class="text-gray-600">Copy this link to connect into your ComfyUI Websocket Serve node:</p>
       <div class="flex items-center justify-between bg-gray-100 p-2 rounded-lg mt-4">
-        <input data-manage-workflow-target="wsLink" disabled type="text" value="ws://{{request.headers().host}}/serve?secret={{workflow.secret}}" class="w-full bg-transparent border-none focus:outline-none">
+        <input data-manage-workflow-target="wsLink" disabled type="text" value="wss://{{request.headers().host}}/serve?secret={{workflow.secret}}" class="w-full bg-transparent border-none focus:outline-none">
         <button class="text-red-500 hover:underline cursor-pointer" data-action="manage-workflow#copyLink">Copy</button>
       </div>
     </div>
