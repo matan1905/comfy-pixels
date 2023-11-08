@@ -41,6 +41,6 @@ export default class Workflow extends BaseModel {
 
   @beforeCreate()
   public static async setlastLiveAtToNever (model: Workflow) {
-    model.lastLiveAt = DateTime.fromSeconds(0)
+    model.lastLiveAt = DateTime.fromSeconds(1) // mysql doesn't like it when there are no seconds I guess
   }
 }
