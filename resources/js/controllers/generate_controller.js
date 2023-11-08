@@ -4,12 +4,13 @@ import {v4 as uuidv4} from 'uuid';
 
 export default class extends Controller {
   socket = null;
-  static targets = ["output", "prompt", "args", "workflowId", 'generateButton']
+  static targets = ["output", "prompt", "args", "workflowId", 'generateButton', 'modal', 'modalImage']
   connect() {
     const sessionId = uuidv4();
     this.sessionId = sessionId;
     // Connect to websocket
-    const socket = new WebSocket(`wss://${window.location.host}/session?id=${sessionId}`);
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const socket = new WebSocket(`${protocol}://${window.location.host}/session?id=${sessionId}`);
     socket.onmessage =  (event)=> {
       this.generateButtonTarget.disabled = false;
       this.generateButtonTarget.innerText = "Generate"
@@ -17,7 +18,12 @@ export default class extends Controller {
       const base64_img = data.base64_img;
       const img = document.createElement('img');
       const a = document.createElement('a');
-      a.href = `data:image/webp;base64,${base64_img}`;
+      a.onclick = (e) => {
+        e.preventDefault();
+        this.modalImageTarget.src = `data:image/webp;base64,${base64_img}`;
+        this.modalTarget.classList.remove("hidden");
+        this.modalTarget.onclick = (e) => this.closeModal(e);
+      }
       a.target = '_blank';
       img.src = `data:image/webp;base64,${base64_img}`;
       img.classList.add('object-cover','w-full', 'h-full')
@@ -35,7 +41,11 @@ export default class extends Controller {
         }, 1000);
     };
   }
-
+  closeModal(e){
+    if(e.target === this.modalTarget || e.target.textContent === "Close"){
+      this.modalTarget.classList.add("hidden");
+    }
+  }
   generate(e){
     e.preventDefault();
     this.generateButtonTarget.disabled = true;
@@ -60,10 +70,13 @@ export default class extends Controller {
       body: JSON.stringify({
         sessionId: this.sessionId,
         args }),
-    }).then(response => {
+    }).then((response) => {
       if(response.status === 503){
         window.location.reload();
       }
+
+    }).catch(e=>{
+      console.error(e)
 
     })
   }

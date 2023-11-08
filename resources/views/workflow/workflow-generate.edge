@@ -56,6 +56,22 @@
 
 
   </form>
+
+
+  <div data-action="generate#closeModal" data-generate-target="modal" class="flex fixed inset-0 h-screen justify-center items-center z-50 bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-4 rounded-lg">
+            <!-- Image content -->
+            <div>
+                <img data-generate-target="modalImage" alt="Image Failed to load" class="w-full h-auto">
+
+            </div>
+
+            <!-- Close button -->
+            <div class="text-right mt-4">
+                <button data-action="generate#closeModal" class="text-red-500 hover:text-red-700">Close</button>
+            </div>
+        </div>
+</div>
 </div>
 
 @end
