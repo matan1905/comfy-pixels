@@ -1,6 +1,15 @@
 @layout('layouts/main')
 @set('title', 'Generate')
 
+@section('head')
+<meta property="og:url" content="https://{{request.headers().host}}/generate/{{workflow.id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{workflow.name}}" />
+<meta property="og:description" content="{{workflow.description}}" />
+<!--<meta property="og:image" content="https://{{request.headers().host}}/generate/{{workflow.id}}" />-->
+<!--<meta property="og:image:width" content="1200" />-->
+<!--<meta property="og:image:height" content="630" />-->
+@end
 @section('body')
   <!-- Generate with Workflow Page Content -->
 <div class="min-h-screen p-8" data-controller="generate">

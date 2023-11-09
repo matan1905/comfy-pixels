@@ -1,12 +1,16 @@
 @layout('layouts/main')
 @set('title', 'Manage Workflow')
 
+
+
 @section('body')
   <!-- Manage Workflow Page Content -->
 <div class=" min-h-screen p-8" data-controller="manage-workflow">
   <div class="max-w-7xl mx-auto">
     <!-- Page Heading and Tagline -->
-    <h1 class="text-4xl font-extrabold text-center  mb-8">Manage Your Workflow</h1>
+    <h1 class="text-4xl font-extrabold text-center  mb-2">Manage Your Workflow</h1>
+    <p class="text-2xl text-center mb-6"><a href="/workflow/edit/{{workflow.secret}}" class="text-2xl font-semibold mb-4 text-red-500 hover:underline  whitespace-nowrap">Edit Workflow</a></p>
+
     <p class="text-2xl text-center mb-8 bg-red-500 text-white">This is where you manage your workflow, save this link for your personal use and avoid sharing it with others.</p>
 
     <!-- Websocket Link and Copy to Clipboard -->
@@ -22,19 +26,51 @@
     <!-- Generation Page and Open in New Page -->
     <div class="bg-white p-4 rounded-lg shadow mb-8">
       <h2 class="text-2xl font-semibold mb-4">Image Generation Page</h2>
-      <p class="text-gray-600">After connecting and running your workflow, You can generate images using this link:</p>
+      <p class="text-gray-600">After connecting and running your workflow (Don't forget to run with Auto Queue!), You can generate images using this link:</p>
       <div class="flex items-center justify-between bg-gray-100 p-2 rounded-lg mt-4">
-        <input disabled type="text" value="https://{{request.headers().host}}/generate/{{workflow.id}}" class="w-full bg-transparent border-none focus:outline-none">
+        <input data-manage-workflow-target="genLink" disabled type="text" value="https://{{request.headers().host}}/generate/{{workflow.id}}" class="w-full bg-transparent border-none focus:outline-none">
         <a href="/generate/{{workflow.id}}" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap">Open in new page</a>
       </div>
-
-
+      <!-- Social Media Share links -->
+      <div class="flex items-center justify-between bg-gray-100 p-2 rounded-lg mt-4 flex-wrap">
+        <p class="text-gray-600">Share on social media:</p>
+        <div class="flex items-center flex-wrap">
+          <!-- Twitter -->
+          <a href="https://twitter.com/intent/tweet?text=Check out my generation workflow at https://{{request.headers().host}}/generate/{{workflow.id}}" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap">Twitter</a>
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://{{request.headers().host}}/Fgenerate/{{workflow.id}}" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap ml-4">Facebook</a>
+          <!-- Reddit -->
+          <a href="https://reddit.com/submit?url=https://{{request.headers().host}}/generate/{{workflow.id}}&title=Check out my generation workflow" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap ml-4">Reddit</a>
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://{{request.headers().host}}/generate/{{workflow.id}}&title=Check out my generation workflow" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap ml-4">LinkedIn</a>
+          <!-- Email -->
+          <a href="mailto:?subject=Check out my generation workflow&body=Check out my generation workflow at https://{{request.headers().host}}/generate/{{workflow.id}}" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap ml-4">Email</a>
+          <!-- Copy Link -->
+          <button class="text-red-500 hover:underline cursor-pointer ml-4" data-action="manage-workflow#copyGenerateLink">Copy Link</button>
+        </div>
+      </div>
+      <!-- Embed Code -->
+      <div class="flex flex-col   bg-gray-100 p-2 rounded-lg mt-4">
+        <div class="flex items-center justify-between">
+        <p class="text-gray-600">Embed on your website:</p>
+        <div class="flex items-center">
+          <button class="text-red-500 hover:underline cursor-pointer ml-4" data-action="manage-workflow#copyEmbedCode">Copy Embed Code</button>
+        </div>
+        </div>
+<!-- the embed code -->
+        <textarea data-manage-workflow-target="embedCode" class="w-full border-none bg-gray-200 p-2 focus:outline-none resize-none rounded my-2"  rows="2" readonly><iframe src="https://{{request.headers().host}}/generate/{{workflow.id}}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></textarea>
+      </div>
     </div>
 
-    <!-- Edit Workflow Button -->
+
+
     <div class="bg-white p-4 rounded-lg shadow mb-8">
-      <a href="/workflow/edit/{{workflow.secret}}" class="text-2xl font-semibold mb-4 text-red-500 hover:underline  whitespace-nowrap">Edit Workflow</a>
-      </div>
+      <h2 class="text-2xl font-semibold mb-4">Need Help?</h2>
+      <p class="text-gray-600">Join the Discord to report bugs, ask for new features or just hang out</p>
+      <a href="https://discord.gg/ehu2kAyGvQ" target="_blank" class="text-red-500 hover:underline  whitespace-nowrap">Join the Discord</a>
+    </div>
+
+
 </div>
 
 
