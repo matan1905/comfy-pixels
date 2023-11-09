@@ -23,7 +23,9 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', 'WorkflowController.home')
 
 Route.get('/workflow/new', 'WorkflowController.new')
+Route.get('/workflow/edit/:secret', 'WorkflowController.edit')
 Route.get('/workflow/manage/:secret', 'WorkflowController.manage')
 Route.get('/generate/:id', 'WorkflowController.generate')
 Route.post('/workflow/create', 'WorkflowController.create')
+Route.post('/workflow/update/:secret', 'WorkflowController.update')
 Route.post('/workflow/run/:id', 'WorkflowController.run')

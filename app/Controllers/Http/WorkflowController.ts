@@ -27,6 +27,31 @@ export default class WorkflowController {
     return view.render('workflow/new-workflow')
   }
 
+  async edit({view,request}){
+    const secret = request.param('secret')
+    const workflow = await Workflow.findByOrFail('secret',secret)
+    return view.render('workflow/new-workflow', {workflow})
+  }
+
+  async update({view,request, response}){
+    const secret = request.param('secret')
+    let workflow = await Workflow.findByOrFail('secret',secret)
+    const { name, description, is_public, args } = request.body()
+    // Validating that args is an array of expected args with name and type
+    if(!Array.isArray(args)) {
+      throw new Error("Args must be an array")
+    }
+    for(const arg of args) {
+      if(!arg.name || !arg.type || (arg.name==='select' && !arg.options)) {
+        throw new Error("Invalid args")
+      }
+    }
+
+    workflow.merge({ name, description, isPublic:is_public==='on', args: JSON.stringify(args), });
+    workflow = await  workflow.save();
+    response.redirect().toPath(`/workflow/manage/${workflow.secret}`)
+  }
+
   async home({view}){
     const workflows =await Workflow
       .query()

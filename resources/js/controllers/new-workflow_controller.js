@@ -8,6 +8,18 @@ export default class extends Controller {
     this.argListTarget.appendChild(arg);
   }
 
+  connect() {
+    if(window.workflow){
+      window.workflow.args.forEach(arg => {
+        const argNode = this.argTemplateTarget.content.cloneNode(true);
+        argNode.querySelector("[data-key='name']").value = arg.name;
+        argNode.querySelector("[data-key='type']").value = arg.type;
+        argNode.querySelector("[data-key='options']").value = arg.options;
+        this.argListTarget.appendChild(argNode);
+      });
+    }
+  }
+
   removeArg(e)
   {
     const arg = e.target.parentElement
@@ -27,7 +39,8 @@ export default class extends Controller {
       args.push({ name, type,options});
     });
 
-    fetch('/workflow/create', {
+    const url = window.workflow? `/workflow/update/${window.workflow.secret}` : '/workflow/create';
+    fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
